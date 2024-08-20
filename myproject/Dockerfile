@@ -11,7 +11,6 @@ COPY . /app
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Выполняем миграции для настройки базы данных
-RUN python manage.py makemigrations 
 
 RUN python manage.py migrate
 
