@@ -23,10 +23,10 @@ jobs:
           python-version: '3.9'  # Устанавливаем Python
       - name: Install dependencies
         run: pip install -r myproject/requirements.txt  # Устанавливаем зависимости
-      - name: Run cd myproject
-        run: cd myproject  # Применяем миграции
       - name: Run migrations
-        run: python manage.py migrate  # Применяем миграции
+        run: |
+        cd myproject
+        python manage.py migrate  # Применяем миграции
       - name: Run tests
         run: pytest  # Запускаем тесты
 
