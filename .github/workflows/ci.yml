@@ -33,13 +33,17 @@ jobs:
           pytest  # Запускаем тесты
 
   deploy:
-    runs-on: ubuntu-latest  # Определяем операционную систему для выполнения job
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3  # Клонируем репозиторий
+        uses: actions/checkout@v3
+      - name: Install Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
       - name: Build Docker image
-        run: docker build -t myproject myproject/.  # Собираем Docker-образ
+        run: docker build -t myproject myproject/.
       - name: Deploy
         run: |
           cd myproject
-          docker-compose up -d  # Запускаем контейнеры в фоне, указываем путь к docker-compose.yml
+          docker-compose up -d
