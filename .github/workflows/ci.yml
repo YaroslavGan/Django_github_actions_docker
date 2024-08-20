@@ -34,6 +34,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3  # Клонируем репозиторий
       - name: Build Docker image
-        run: docker build -t myproject .  # Собираем Docker-образ
+        run: docker build -t myproject myproject/.  # Собираем Docker-образ
       - name: Deploy
         run: docker-compose up -d  # Запускаем контейнеры в фоне
