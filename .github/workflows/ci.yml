@@ -41,5 +41,5 @@ jobs:
         run: docker build -t myproject myproject/.  # Собираем Docker-образ
       - name: Deploy
         run: |
-        cd myproject
-        docker-compose up --build  # Запускаем контейнеры в фоне, указываем путь к docker-compose.yml
+          cd myproject
+          docker-compose up --build  # Запускаем контейнеры в фоне, указываем путь к docker-compose.yml
