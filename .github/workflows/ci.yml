@@ -11,7 +11,7 @@ services:
 before_script:
   - pip install -r requirements.txt  # Устанавливаем зависимости перед запуском скриптов
   - python manage.py migrate  # Применяем миграции
-
+#№22222
 test:
   stage: test  # Выполняем тесты на стадии тестирования
   script:
