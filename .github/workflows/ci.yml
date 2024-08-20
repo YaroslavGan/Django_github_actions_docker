@@ -25,10 +25,12 @@ jobs:
         run: pip install -r myproject/requirements.txt  # Устанавливаем зависимости
       - name: Run migrations
         run: |
-        cd myproject
-        python manage.py migrate  # Применяем миграции
+          cd myproject
+          python manage.py migrate  # Применяем миграции
       - name: Run tests
-        run: pytest  # Запускаем тесты
+        run: |
+          cd myproject
+          pytest  # Запускаем тесты
 
   deploy:
     runs-on: ubuntu-latest  # Определяем операционную систему для выполнения job
@@ -37,7 +39,5 @@ jobs:
         uses: actions/checkout@v3  # Клонируем репозиторий
       - name: Build Docker image
         run: docker build -t myproject myproject/.  # Собираем Docker-образ
-      - name: Run cd myproject
-        run: cd myproject  # Применяем миграции
       - name: Deploy
-        run: docker-compose up -d  # Запускаем контейнеры в фоне
+        run: docker-compose -f myproject/docker-compose.yml up -d  # Запускаем контейнеры в фоне, указываем путь к docker-compose.yml
