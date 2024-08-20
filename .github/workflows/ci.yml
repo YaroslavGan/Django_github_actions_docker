@@ -1,0 +1,24 @@
+stages:
+  - test  # Стадия тестирования
+  - deploy  # Стадия развертывания
+
+variables:
+  DATABASE_URL: "postgres://postgres:postgres@postgres:5432/postgres"  # Переменная окружения для базы данных
+
+services:
+  - postgres:11  # Указываем сервис базы данных Postgres
+#ddddd
+before_script:
+  - pip install -r requirements.txt  # Устанавливаем зависимости перед запуском скриптов
+  - python manage.py migrate  # Применяем миграции
+
+test:
+  stage: test  # Выполняем тесты на стадии тестирования
+  script:
+    - pytest  # Запускаем тесты с использованием PyTest
+
+deploy:
+  stage: deploy  # Выполняем развертывание на стадии deploy
+  script:
+    - docker build -t myproject .  # Собираем Docker-образ
+    - docker-compose up -d  # Запускаем контейнеры в фоне
