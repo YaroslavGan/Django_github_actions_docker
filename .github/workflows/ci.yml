@@ -4,24 +4,36 @@ on: [push]
 
 jobs:
   test:
-    stage: test  # Стадия тестирования
-    variables:
-      DATABASE_URL: "postgres://postgres:postgres@postgres:5432/postgres"  # Переменная окружения для базы данных
+    runs-on: ubuntu-latest  # Определяем операционную систему для выполнения job
     services:
-      - name: postgres
+      postgres:
         image: postgres:11  # Указываем сервис базы данных Postgres
-    before_script:
-      - pip install -r requirements.txt  # Устанавливаем зависимости перед запуском скриптов
-      - python manage.py migrate  # Применяем миграции
-    script:
-      - pytest  # Запускаем тесты с использованием PyTest
+        env:
+          POSTGRES_DB: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+    env:
+      DATABASE_URL: "postgres://postgres:postgres@localhost:5432/postgres"  # Переменная окружения для базы данных
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3  # Клонируем репозиторий
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'  # Устанавливаем Python
+      - name: Install dependencies
+        run: pip install -r requirements.txt  # Устанавливаем зависимости
+      - name: Run migrations
+        run: python manage.py migrate  # Применяем миграции
+      - name: Run tests
+        run: pytest  # Запускаем тесты
 
   deploy:
-    stage: deploy  # Стадия развертывания
-    script:
-      - docker build -t myproject .  # Собираем Docker-образ
-      - docker-compose up -d  # Запускаем контейнеры в фоне
-
-stages:
-  - test
-  - deploy
+    runs-on: ubuntu-latest  # Определяем операционную систему для выполнения job
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3  # Клонируем репозиторий
+      - name: Build Docker image
+        run: docker build -t myproject .  # Собираем Docker-образ
+      - name: Deploy
+        run: docker-compose up -d  # Запускаем контейнеры в фоне
