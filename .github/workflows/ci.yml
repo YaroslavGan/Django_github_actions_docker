@@ -22,7 +22,7 @@ jobs:
         with:
           python-version: '3.9'  # Устанавливаем Python
       - name: Install dependencies
-        run: pip install -r requirements.txt  # Устанавливаем зависимости
+        run: pip install -r myproject/requirements.txt  # Устанавливаем зависимости
       - name: Run migrations
         run: python manage.py migrate  # Применяем миграции
       - name: Run tests
