@@ -42,4 +42,4 @@ jobs:
       - name: Deploy
         run: |
           cd myproject
-          docker-compose up --build  # Запускаем контейнеры в фоне, указываем путь к docker-compose.yml
+          docker-compose up -d  # Запускаем контейнеры в фоне, указываем путь к docker-compose.yml
