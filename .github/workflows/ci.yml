@@ -23,6 +23,8 @@ jobs:
           python-version: '3.9'  # Устанавливаем Python
       - name: Install dependencies
         run: pip install -r myproject/requirements.txt  # Устанавливаем зависимости
+      - name: Run cd myproject
+        run: cd myproject  # Применяем миграции
       - name: Run migrations
         run: python manage.py migrate  # Применяем миграции
       - name: Run tests
@@ -35,5 +37,7 @@ jobs:
         uses: actions/checkout@v3  # Клонируем репозиторий
       - name: Build Docker image
         run: docker build -t myproject myproject/.  # Собираем Docker-образ
+      - name: Run cd myproject
+        run: cd myproject  # Применяем миграции
       - name: Deploy
         run: docker-compose up -d  # Запускаем контейнеры в фоне
